@@ -2,12 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from './src/screens/login_screen/Login';
+import FriendsScreen from './src/screens/friends_screen/Friends';
 
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
-      <Button title="Go to Details" onPress={() => navigation.navigate('Details')} />
+      <Button title="Go to Login" onPress={() => navigation.navigate('Login')} />
+      <Button title="Go to Friends" onPress={() => navigation.navigate('Friends')} />
     </View>
   );
 }
@@ -55,6 +58,8 @@ export default function App() {
           options={{ title: 'Overview' }}
         />
         <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Friends" component={FriendsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
