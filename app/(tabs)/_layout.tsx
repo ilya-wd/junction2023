@@ -24,7 +24,7 @@ export default function TabLayout() {
       }}>
 
       <Tabs.Screen
-        name="settings"
+        name="Settings"
         options={{
           title: 'Settings',
           tabBarIcon: ({ color }) => <TabBarIcon name="sliders" color={color} />,
@@ -32,9 +32,9 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="social"
+        name="Friends"
         options={{
-          title: 'Social',
+          title: 'Friends',
           tabBarIcon: ({ color }) => <TabBarIcon name="wheelchair-alt" color={color} />,
         }}
       />
