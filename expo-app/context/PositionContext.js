@@ -21,6 +21,7 @@ const PositionProvider = ({ children}) => {
   const [ biasCounter, setBiasCounter ] = useState(0);
   const [ velocity, setVelocity ] = useState([0, 0, 0]);
   const [ position, setPosition ] = useState([0, 0, 0]);
+  const [ acclUnb, setAcclUnb ] = useState([0, 0, 0]);
   const sensorFusion = useSensorFusion();
 
   useEffect(
@@ -38,28 +39,28 @@ const PositionProvider = ({ children}) => {
       const attPrQ = [attitude.w, attitude.x, attitude.y, attitude.z]
       const accQ = [0, ...accl]
     
-      const acclRot = hpr(attPrQ, hpr(accQ, attQ)).map(_ => _*g)
+      const acclRotQ = hpr(attPrQ, hpr(accQ, attQ)).map(_ => _*g)
     
       if(biasCounter < bias_period) {
-        setAccBias(accBias.map((v, i) => v + acclRot[i]));
-        setBiasCounter(_ => _++);
+        setAccBias(accBias.map((v, i) => v + acclRotQ[i]));
+        setBiasCounter(_ => _ + 1);
         if(biasCounter == (bias_period - 1)) {
-          setVelocity([0, 0, 0])
-          setPosition([0, 0, 0])
           setAccBias(accBias.map(_ => _ / bias_period));
         }
-      } 
-    
-      const acclUnb = acclRot.map((val, i) => val - accBias[i])
-      
-      setPosition( position.map((v, i) => v + velocity[i] * dt + 0.5*acclUnb[i + 1] * (dt**2)) );
-      setVelocity( velocity.map((v, i) => v + acclUnb[i + 1] *  dt) );
+      } else {
+        const acclUnbQ = acclRotQ.map((val, i) => val - accBias[i])
+        acclUnbQ.shift()
+
+        setAcclUnb( acclUnbQ )
+        setPosition( position.map((v, i) => v + velocity[i] * dt + 0.5*acclUnbQ[i] * (dt**2)) );
+        setVelocity( velocity.map((v, i) => v + acclUnbQ[i] *  dt) );
+      }
     },
     [sensorFusion],
   );
   return (
     <PositionContext.Provider
-      value={position}
+      value={{ position, velocity, acclUnb }}
       children={children}
     />
   );
