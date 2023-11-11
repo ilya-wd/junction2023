@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import SensorFusionProvider, { useSensorFusion, useCompass, toDegrees } from './expo-sensor-fusion.js';
 import { useRef, useState } from 'react';
+import SensorFusionProvider, { useSensorFusion, useCompass, toDegrees } from './context/expo-sensor-fusion.js';
+import PositionProvider from './context/PositionContext.js';
+import ExerciseProvider, { useExercise } from './context/ExerciseContext.js';
 
 const Indicator = () => {
   const { ahrs } = useSensorFusion();
@@ -13,6 +15,7 @@ const Indicator = () => {
       Pitch: {toDegrees(pitch)}°{'\n'}
       Roll: {toDegrees(roll)}°{'\n'}
       Compass: {toDegrees(compass)}°{'\n'}
+      {'\n'}
     </Text>
   );
 };
@@ -100,11 +103,17 @@ const PathIndicator = () => {
 
       {'\n'}
 
-      {elapsedTime}
+      {elapsedTime}{'\n'}
+    </Text>
+  );
+};
 
-      {'\n'}
-
-      {per_counter.current}
+const ExerciseIndicator = () => {
+  const { exercising } = useExercise();
+  
+  return (
+    <Text>
+      You are exercising: {exercising ? "yes" : "no"}
     </Text>
   );
 };
@@ -112,9 +121,13 @@ const PathIndicator = () => {
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text> <SensorFusionProvider> <Indicator /> </SensorFusionProvider> </Text>
-      <Text> <SensorFusionProvider> <PathIndicator /> </SensorFusionProvider> </Text>
+      <Text>
+      <SensorFusionProvider> <PositionProvider> <ExerciseProvider>
+        <Text> <Indicator /> </Text>
+        <Text> <PathIndicator /> </Text>
+        <Text>  <ExerciseIndicator />  </Text>
+      </ExerciseProvider> </PositionProvider> </SensorFusionProvider>
+      </Text>
       <StatusBar style="auto" />
     </View>
   );
