@@ -4,13 +4,9 @@ import { Asset } from 'expo-asset';
 const imageURI = Asset.fromModule(require('../../data/images/dalle_1.png')).uri;
 
 const FriendItem = ({ friend }) => {
-  console.log('FRIEND ITEM:   ', friend);
-  console.log('IMAGE', friend.item.image);
   return (
     <View style={styles.container}>
-      {/* <Image source={{ uri: '../../data/images/dalle_1.png' }} style={styles.image} /> */}
       <Image source={{ uri: imageURI }} style={styles.image} />
-      {/* <Image source={require(friend.item.image)} style={styles.image} /> */}
       <View style={styles.column}>
         <Text style={styles.name}>{friend.item.name}</Text>
         <Text style={styles.online}>{friend.item.online}</Text>

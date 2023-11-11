@@ -18,7 +18,7 @@ export default friends_data = [
     image: '/Users/ilyanekrasov/Desktop/junction/my-app/src/data/images/dalle_1.png',
     name: 'First',
     id: '1',
-    online: 'last seen:' + getHoursPassed(startTimeOne),
+    online: 'Last seen: ' + getHoursPassed(startTimeOne),
   },
   {
     image: '/src/data/friends_data/friendsData.js',
@@ -35,7 +35,7 @@ export default friends_data = [
     image: '../images/dalle_1.png',
     name: 'Fourth',
     id: '4',
-    online: 'last seen:' + getHoursPassed(startTimeTwo),
+    online: 'Last seen: ' + getHoursPassed(startTimeTwo),
   },
   // {
   //   image: 'src/data/friends_data/friendsData.js',

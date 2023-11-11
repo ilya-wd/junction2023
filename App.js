@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './src/screens/login_screen/Login';
 import FriendsScreen from './src/screens/friends_screen/Friends';
+import ParentsScreen from './src/screens/parents_screen/Parents';
 
 function HomeScreen({ navigation }) {
   return (
@@ -11,6 +12,7 @@ function HomeScreen({ navigation }) {
       <Text>Home Screen</Text>
       <Button title="Go to Login" onPress={() => navigation.navigate('Login')} />
       <Button title="Go to Friends" onPress={() => navigation.navigate('Friends')} />
+      <Button title="Go to Parents" onPress={() => navigation.navigate('Parents')} />
     </View>
   );
 }
@@ -60,6 +62,7 @@ export default function App() {
         <Stack.Screen name="Details" component={DetailsScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Friends" component={FriendsScreen} />
+        <Stack.Screen name="Parents" component={ParentsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

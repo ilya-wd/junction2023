@@ -3,7 +3,6 @@ import { FlatList, StyleSheet } from 'react-native';
 import FriendItem from './FriendItem'; //
 
 const FriendList = ({ friends }) => {
-  console.log('FRIEND LIST:   ', friends);
   return (
     <FlatList
       data={friends}
