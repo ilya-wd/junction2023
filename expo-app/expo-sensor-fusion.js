@@ -74,7 +74,7 @@ const SensorFusionProvider = ({ children, ...extraProps }) => {
           (sensor, i) => sensor.addListener(({ x, y, z }) => {
             [ x, y, z ]
               .map(
-                (e, j) => get[i][j] = filters[i][j].filter(e),
+                (e, j) => get[i][j] = e,//filters[i][j].filter(e),
               );
             ahrs.update(
               ...get[0],

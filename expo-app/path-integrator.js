@@ -9,49 +9,39 @@ const PathIntegratorContext = React
 
 const PathIntegratorProvider = ({ children, ...extraProps }) => {
   const { sampleInterval } = extraProps;
-  const [velocity, setVelocity] = useState([0, 0, 0]);
-  const [position, setPosition] = useState([0, 0, 0]);
-  const get = [ velocity, position ];
-  const [ value, setValue ] = useState(
-    {
-        velocity, position,
-    },
-  );
+  const [ velocity ] = useState([0, 0, 0]);
+  const [ position ] = useState([0, 0, 0]);
+  const [ value, setValue ] = useState({ velocity, position,});
   const { ahrs, accl } = useSensorFusion(extraProps);
 
   useEffect(
     () => {
-      const subscriptions = sensors
-        .map(
-          (sensor, i) => sensor.addListener(({ x, y, z }) => {
-            [ x, y, z ]
-              .map(
-                (e, j) => get[i][j] = filters[i][j].filter(e),
-              );
-            ahrs.update(
-              ...get[0],
-              ...get[1],
-              ...get[2],
-            );
-            if (i === sensors.length - 1) {
-              setValue(
-                {
-                  ahrs,
-                  gyro,
-                  accl,
-                  comp,
-                },
-              );
-            }
-          })
-        );
-      return () => subscriptions
-        .map(({ remove }) => remove());
+      const attitude = ahrs.getQuaternion();
+
+      const hpr = ([a1, b1, c1, d1], [a2, b2, c2, d2]) => {
+        return [
+          a1*a2 - b1*b2 - c1*c2 - d1*d2,
+          a1*b2 + b1*a2 + c1*d2 - d1*c2,
+          a1*c2 - b1*d2 + c1*a2 + d1*b2,
+          a1*d2 + b1*c2 - c1*b2 + d1*a2, 
+        ]
+      }
+
+      const att_q = [attitude.w, -attitude.x, -attitude.y, -attitude.z]
+      const att_pr_q = [attitude.w, attitude.x, attitude.y, attitude.z]
+      const acc_q = [0, ...accl]
+
+      const accl_rot = hpr(att_pr_q, hpr(acc_q, att_q)).map(_ => _*9.8)
+      accl_rot[3] = accl_rot[3] - 9.8
+
+      velocity = velocity.map((val, i) => val + accl_rot[i + 1] * (1000 / sampleInterval) )
+
+      setValue({velocity, position})
     },
-    [],
+    [ahrs, accl],
   );
   return (
-    <SensorFusionContext.Provider
+    <PathIntegratorContext.Provider
       value={value}
       children={children}
     />
