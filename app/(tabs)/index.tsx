@@ -1,26 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { useRef, useState } from 'react';
+import SensorFusionProvider from '../../context/expo-sensor-fusion.js';
+import PositionProvider from '../../context/PositionContext.js';
+import ExerciseProvider from '../../context/ExerciseContext.js';
+import MainScreen from '../../components/MainScreen.js'
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-    </View>
+    <SensorFusionProvider><PositionProvider><ExerciseProvider>
+      <MainScreen/>
+    </ExerciseProvider></PositionProvider></SensorFusionProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
