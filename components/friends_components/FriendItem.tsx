@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 
 const FriendItem = ({ friend }) => {
+  const windowWidth = Dimensions.get('window').width;
+
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, marginTop: windowWidth * 0.05, marginBottom: windowWidth * 0.05 }}>
       <Image source={{ uri: friend.item.image }} style={styles.image} />
       <View style={styles.column}>
         <Text style={styles.name}>{friend.item.name}</Text>
@@ -22,8 +24,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: '#E7E7E7',
     // borderWidth: 0.5,
-    marginTop: 5,
-    marginBottom: 5,
     marginRight: 2,
     marginLeft: 2,
     boxShadow: '',
