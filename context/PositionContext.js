@@ -61,7 +61,7 @@ const PositionProvider = ({ children}) => {
   return (
     <PositionContext.Provider
       value={{ position, velocity, acclUnb }}
-      children={children}
+      children={children[1]}
     />
   );
 };

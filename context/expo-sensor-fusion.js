@@ -99,9 +99,9 @@ const SensorFusionProvider = ({ children, ...extraProps }) => {
     [],
   );
   return (
-    <SensorFusionContext.Provider
-      value={value}
-      children={children}
+    <SensorFusionContext.Provider 
+      value={value} 
+      children={children[1]}
     />
   );
 };

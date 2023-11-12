@@ -114,16 +114,18 @@ const ExerciseProvider = ({ children}) => {
             setSval((ps) => ps + s)
           } else {
             setExercising(false)
-            setSval(0)
           }
         }
       }
     },
     [acclUnb],
   );
+
+  const resetSval = () => {setSval(0)}
+
   return (
     <ExerciseContext.Provider
-      value={{ exercising, sval }}
+      value={{ exercising, sval, resetSval }}
       children={children}
     />
   );

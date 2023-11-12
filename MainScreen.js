@@ -1,6 +1,9 @@
 import { View, Text, Dimensions, Image, TouchableOpacity } from "react-native"
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
+import SensorFusionProvider from './context/expo-sensor-fusion.js';
+import PositionProvider from './context/PositionContext.js';
+import ExerciseProvider, { useExercise } from './context/ExerciseContext.js';
 
 export default function MainScreen() {
     const windowWidth = Dimensions.get('window').width;
@@ -12,6 +15,44 @@ export default function MainScreen() {
     const [dialog, setDialog] = useState("")
     const [buttonsVisibility, setButtonsVisibility] = useState(false)
     const [gameMode, setGameMode] = useState(false)
+    const [gameStartTime, setGameStartTime] = useState(0)
+    const [gameStartedMoving, setGameStartedMoving] = useState(false)
+    const [gameMotivationShown, setGameMotivationShown] = useState(false)
+    const [gameMovingTime, setGameMovingTime] = useState(0)
+
+    const resetGame = () => {
+        setGameStartTime(Date.now());
+        setGameStartedMoving(false);
+        setGameMotivationShown(false);
+        resetSval();
+    }
+    
+    const { exercising, sval, resetSval } = useExercise();
+
+    if(gameMode) {
+        console.log(sval)
+        const elapsedTime = Date.now() - gameStartTime
+
+        if(!gameStartedMoving && sval > 800) {
+            setDialog("Good! Keep moving!");
+            setGameMotivationShown(false);
+            setGameStartedMoving(true)
+            setGameMovingTime(Date.now())
+        }
+            
+        if(!gameStartedMoving && !gameMotivationShown && elapsedTime > 5000) {
+            setDialog("C'mon! Let's move!");
+            setGameMotivationShown(true);
+        }
+
+        if(gameStartedMoving) {
+            const timeSinceMoving = Date.now() - gameMovingTime;
+            if(timeSinceMoving > 10000) {
+                setDialog("Well done!");
+                setGameMode(false);
+            }
+        }
+    }
 
     const handleCompanionTap = () => {
         setDialog("Let's jump!");
@@ -22,6 +63,7 @@ export default function MainScreen() {
         setDialog("");
         setButtonsVisibility(false);
         setGameMode(true);
+        resetGame();
     }
 
     const handleJumpDecline = () => {
