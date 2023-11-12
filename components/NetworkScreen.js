@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import SensorFusionProvider from '../context/expo-sensor-fusion.js';
 import PositionProvider from '../context/PositionContext.js';
 import ExerciseProvider, { useExercise } from '../context/ExerciseContext.js';
+import * as Haptics from 'expo-haptics';
 
 const serverURL = "https://alice-and-bob-play-a-game.onrender.com"
 
@@ -33,9 +34,13 @@ export default function NetworkScreen() {
         setGameMotivationShown(false);
         setAwaitingResult(false);
         resetSval();
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
 
     const finishGame = (s=0, report=false) => {
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Error
+        )
         console.log(`${gameUserID}: submitting score ${Math.floor(s)}`)
         fetch(`${serverURL}/completeGame/${gameCode}?user_id=${gameUserID}&score=${Math.floor(s)}`, { method: 'POST' })
             .then(response => response.json())

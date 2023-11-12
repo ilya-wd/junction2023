@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import SensorFusionProvider from '../context/expo-sensor-fusion.js';
 import PositionProvider from '../context/PositionContext.js';
 import ExerciseProvider, { useExercise } from '../context/ExerciseContext.js';
+import * as Haptics from 'expo-haptics';
 
 export default function MainScreen() {
   const windowWidth = Dimensions.get('window').width;
@@ -55,6 +56,9 @@ export default function MainScreen() {
       if (timeSinceMoving > 10000) {
         setDialog('Well done!');
         setGameMode(false);
+        Haptics.notificationAsync(
+          Haptics.NotificationFeedbackType.Success
+        )
       }
     }
   }
@@ -69,6 +73,7 @@ export default function MainScreen() {
     setButtonsVisibility(false);
     setGameMode(true);
     resetGame();
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
   };
 
   const handleJumpDecline = () => {
