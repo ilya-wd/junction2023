@@ -1,6 +1,19 @@
+import { Asset } from 'expo-asset';
+
+const imageYellow = Asset.fromModule(
+  require('../../assets/images/yellow_creature.png'),
+).uri;
+const imagePurple = Asset.fromModule(
+  require('../../assets/images/purple_creature.png'),
+).uri;
+const imageGreen = Asset.fromModule(
+  require('../../assets/images/green_creature.png'),
+).uri;
+const imageRed = Asset.fromModule(require('../../assets/images/red_creature.png')).uri;
+
 const startTimeOne = new Date('2023-11-11T02:00:00');
 const startTimeTwo = new Date('2023-11-11T00:00:00');
-const startTimeThree = new Date('2023-11-11T11:00:00');
+const startTimeThree = new Date('2023-11-11T16:00:00');
 
 function getHoursPassed(since) {
   // 'since' is a Date object representing the point in time from which you want to calculate the hours passed
@@ -13,25 +26,26 @@ function getHoursPassed(since) {
 
 export default friends_data = [
   {
-    // image: '/Users/ilyanekrasov/Desktop/junction/my-app/src/data/images/dalle_1.png',
-    name: 'First',
+    image: imageYellow,
+    name: 'Doodley Pum',
     id: '1',
     online: 'Last seen: ' + getHoursPassed(startTimeOne),
   },
   {
-    // image: '/src/data/friends_data/friendsData.js',
-    name: 'Second',
+    image: imageGreen,
+    name: 'Diane',
     id: '2',
     online: 'Online 🟢',
   },
-  // {
-  //   image: theImage,
-  //   name: 'Third',
-  //   id: '3',
-  // },
   {
-    // image: '../images/dalle_1.png',
-    name: 'Fourth',
+    image: imagePurple,
+    name: 'Unicorn',
+    id: '3',
+    online: 'Last seen: ' + getHoursPassed(startTimeThree),
+  },
+  {
+    image: imageRed,
+    name: 'Juho',
     id: '4',
     online: 'Last seen: ' + getHoursPassed(startTimeTwo),
   },
