@@ -43,14 +43,21 @@ export default function NetworkScreen() {
             Haptics.NotificationFeedbackType.Error
         )
         console.log(`${gameUserID}: submitting score ${Math.floor(s)}`)
+        if(!report) {
+            setGameMode(false);
+            setButtonsVisibility(true);
+        }
+
         fetch(`${serverURL}/completeGame/${gameCode}?user_id=${gameUserID}&score=${Math.floor(s)}`, { method: 'POST' })
             .then(response => response.json())
             .then(data => {
-                console.log('Finished the game, won:', data.won);
-                if(data.won) {
-                    setDialog("You won!");
-                } else {
-                    setDialog("You lost. Better luck next time!");
+                if(report) {
+                    console.log('Finished the game, won:', data.won);
+                    if(data.won) {
+                        setDialog("You won!");
+                    } else {
+                        setDialog("You lost. Better luck next time!");
+                    }
                 }
             })
             .catch(error => {
@@ -100,6 +107,7 @@ export default function NetworkScreen() {
                         console.log('Joined game, user id:', data.userId);
                         setGameUserID(data.userId);
                         resetGame();
+                        setStartMode(false);
                         setGameMode(true);
                     })
                     .catch(error => {
@@ -152,6 +160,7 @@ export default function NetworkScreen() {
 
     const handleGameStop = () => {
         setDialog("");
+        finishGame();
         setGameMode(false);
     }
 
@@ -174,7 +183,7 @@ export default function NetworkScreen() {
                     width: windowWidth * 0.6, 
                     alignSelf: 'center', 
                     position: 'absolute', 
-                    marginTop: 25,  
+                    marginTop: 30,  
                     zIndex: 100, 
                     resizeMode: 'contain'
                 }} source={require('../assets/dialog-bubble-tail.png')} />

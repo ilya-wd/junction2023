@@ -112,7 +112,7 @@ export default function MainScreen() {
               width: windowWidth * 0.6,
               alignSelf: 'center',
               position: 'absolute',
-              marginTop: 25,
+              marginTop: 30,
               zIndex: 100,
               resizeMode: 'contain',
             }}
