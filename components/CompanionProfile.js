@@ -1,5 +1,6 @@
 import { View, Text, Dimensions, Image } from "react-native"
 import { useState } from "react";
+import { LinearGradient } from 'expo-linear-gradient';
 
 function CompanionStatistic({ barColor, goalNumber, currentNumber, title, goalAdditionalText }) {
     const windowWidth = Dimensions.get('window').width;
@@ -34,7 +35,7 @@ export default function CompanionProfileScreen() {
     ]
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#71D552' }}>
+        <LinearGradient colors={['#71D552', '#C9D2BD', '#A0C1CA']} style={{ flex: 1 }}>
             <View id="companion-level" style={{ 
                 alignItems: 'center',
                 alignSelf: 'center', 
@@ -80,6 +81,6 @@ export default function CompanionProfileScreen() {
                     <CompanionStatistic barColor={'#40B17D'} goalNumber="8000" currentNumber="3285" title="Steps" />
                 </View>
             </View>
-        </View>
+        </LinearGradient>
     );
 }

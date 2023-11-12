@@ -28,7 +28,6 @@
     "expo-web-browser": "~12.3.2",
     "@react-navigation/native-stack": "^6.9.17",
     "ahrs": "^1.3.3",
-    "expo-sensor-fusion": "file:../expo-sensor-fusion",
     "expo-sensors": "~12.3.0",
     "kalmanjs": "^1.1.0",
     "react": "18.2.0",
