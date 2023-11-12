@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
 import CompanionProfile from './CompanionProfile';
+import MainScreen from './MainScreen';
 
 
 export default function App() {
   return (
-    <CompanionProfile />
+    <MainScreen />
   );
 }
 
