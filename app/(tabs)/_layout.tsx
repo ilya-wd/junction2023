@@ -61,6 +61,14 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="bar-chart" color={color} />,
         }}
       />
+
+      <Tabs.Screen
+        name="networkGame"
+        options={{
+          title: 'Network',
+          tabBarIcon: ({ color }) => <TabBarIcon name="signal" color={color} />,
+        }}
+      />
     </Tabs>
   );
 }

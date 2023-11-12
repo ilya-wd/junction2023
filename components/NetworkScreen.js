@@ -1,11 +1,13 @@
-import { View, Text, Dimensions, Image, TouchableOpacity } from "react-native"
+import { View, Text, Dimensions, Image, TouchableOpacity, TextInput, KeyboardAvoidingView } from "react-native"
 import { useRef, useState } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
 import SensorFusionProvider from '../context/expo-sensor-fusion.js';
 import PositionProvider from '../context/PositionContext.js';
 import ExerciseProvider, { useExercise } from '../context/ExerciseContext.js';
 
-export default function MainScreen() {
+const serverURL = "https://alice-and-bob-play-a-game.onrender.com"
+
+export default function NetworkScreen() {
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
 
@@ -13,21 +15,47 @@ export default function MainScreen() {
     const [levelProgress, setLevelProgress] = useState(0.6);
     const [companionName, setCompanionName] = useState("Companion")
     const [dialog, setDialog] = useState("")
-    const [buttonsVisibility, setButtonsVisibility] = useState(false)
+    const [buttonsVisibility, setButtonsVisibility] = useState(true)
+    const [inputField, setInputField] = useState('');
+    const [joinMode, setJoinMode] = useState(false)
     const [gameMode, setGameMode] = useState(false)
+    const [gameUserID, setGameUserID] = useState('')
+    const [gameCode, setGameCode] = useState('')
     const [gameStartTime, setGameStartTime] = useState(0)
     const [gameStartedMoving, setGameStartedMoving] = useState(false)
     const [gameMotivationShown, setGameMotivationShown] = useState(false)
-    const [gameMovingTime, setGameMovingTime] = useState(0)
+    const [awaitingResult, setAwaitingResult] = useState(false)
+    const { sval, resetSval } = useExercise();
 
     const resetGame = () => {
         setGameStartTime(Date.now());
         setGameStartedMoving(false);
         setGameMotivationShown(false);
+        setAwaitingResult(false);
         resetSval();
     }
-    
-    const { sval, resetSval } = useExercise();
+
+    const finishGame = (s=0, report=false) => {
+        console.log(`${gameUserID}: submitting score ${Math.floor(s)}`)
+        fetch(`${serverURL}/completeGame/${gameCode}?user_id=${gameUserID}&score=${Math.floor(s)}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Finished the game, won:', data.won);
+                if(data.won) {
+                    setDialog("You won!");
+                } else {
+                    setDialog("You lost. Better luck next time!");
+                }
+            })
+            .catch(error => {
+                console.error('Error during fetch:', error.message, error);
+            })
+            .finally(() => {
+                setGameMode(false);
+                setButtonsVisibility(true);
+            });
+    }
+
 
     if(gameMode) {
         const elapsedTime = Date.now() - gameStartTime
@@ -36,7 +64,6 @@ export default function MainScreen() {
             setDialog("Good! Keep moving!");
             setGameMotivationShown(false);
             setGameStartedMoving(true)
-            setGameMovingTime(Date.now())
         }
             
         if(!gameStartedMoving && !gameMotivationShown && elapsedTime > 5000) {
@@ -44,30 +71,70 @@ export default function MainScreen() {
             setGameMotivationShown(true);
         }
 
-        if(gameStartedMoving) {
-            const timeSinceMoving = Date.now() - gameMovingTime;
-            if(timeSinceMoving > 10000) {
-                setDialog("Well done!");
-                setGameMode(false);
-            }
+        if(elapsedTime > 10000) {
+            setDialog("Well done!");
+            setGameMode(false);
+            finishGame(sval, true);
         }
     }
 
-    const handleCompanionTap = () => {
-        setDialog("Let's jump!");
+    const handleStartGame = () => {
+        setButtonsVisibility(false);
+        setDialog("")
+        fetch(`${serverURL}/createGame`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Game Code:', data.gameCode);
+                setDialog(`Game code is ${data.gameCode}`);
+                setGameCode(data.gameCode)
+                fetch(`${serverURL}/joinGame/${data.gameCode}`, { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Joined game, user id:', data.userId);
+                        setGameUserID(data.userId);
+                        resetGame();
+                        setGameMode(true);
+                    })
+                    .catch(error => {
+                        console.error('Error during fetch:', error.message, error);
+                    });
+            })
+            .catch(error => {
+                console.error('Error during fetch:', error.message, error);
+              });
+    }
+
+    const handleJoinGame = () => {
+        setButtonsVisibility(false);
+        setJoinMode(true);
+        setInputField("")
+        setDialog("")
+    }
+
+    const handleInputChange = (inputText) => {
+        setInputField(inputText);
+    };    
+
+    const handleJoinConnect = () => {
+        setJoinMode(false);
+        console.log(inputField);
+        setGameCode(inputField)
+        fetch(`${serverURL}/joinGame/${inputField}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Joined game, user id:', data.userId);
+                setGameUserID(data.userId);
+                resetGame();
+                setGameMode(true);
+            })
+            .catch(error => {
+                console.error('Error during fetch:', error.message, error);
+            });
+    }
+
+    const handleCancelJoin = () => {
         setButtonsVisibility(true);
-    }
-
-    const handleJumpAccept = () => {
-        setDialog("");
-        setButtonsVisibility(false);
-        setGameMode(true);
-        resetGame();
-    }
-
-    const handleJumpDecline = () => {
-        setDialog("");
-        setButtonsVisibility(false);
+        setJoinMode(false);
     }
 
     const handleGameStop = () => {
@@ -99,6 +166,35 @@ export default function MainScreen() {
                     resizeMode: 'contain'
                 }} source={require('../assets/dialog-bubble-tail.png')} />
             </View> }
+            {joinMode && <View id="dialog-bubble" style={{
+                marginTop: windowHeight * 0.25 ,
+                backgroundColor: '#F6F6F6',
+                borderRadius: 30,
+                alignItems: 'center',
+                alignSelf: 'center', 
+                position: 'absolute',
+                display: 'flex',
+                flexDirection: 'column',
+                width: windowWidth * 0.3
+                }}
+            >
+                <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+                    <TextInput
+                        style={{
+                            height: 50,
+                            borderColor: 'gray',
+                            borderWidth: 1,
+                            paddingLeft: 10,
+                            paddingRight: 10,
+                            marginTop: 20,
+                            marginBottom: 20,
+                        }}
+                        placeholder="Code"
+                        onChangeText={handleInputChange}
+                        value={inputField}
+                    />
+                </KeyboardAvoidingView> 
+            </View>}
             <View id="companion-level" style={{ 
                 alignItems: 'center',
                 alignSelf: 'center', 
@@ -114,15 +210,17 @@ export default function MainScreen() {
                 <View id="companion-level-bar-current" style={{ borderWidth: 8, borderRadius: 8, alignSelf: 'stretch', borderColor: '#ffffff', width: windowWidth * 0.72 * levelProgress, marginTop: -16 }}></View>
                 <View id="companion-level-bar-current-point" style={{ borderWidth: 10, borderRadius: 10, alignSelf: 'stretch', borderColor: '#ffffff', width: 0, marginTop: -18, marginLeft: -17 + windowWidth * 0.72 * levelProgress }}></View>
             </View>
-            {!gameMode && <TouchableOpacity onPress={handleCompanionTap} style={{alignSelf: 'center', position: 'absolute',}}>
+            {!gameMode && 
                 <Image id="companion-picture" style={{
                     width: windowWidth * 0.6,   
+                    alignSelf: 'center', 
+                    position: 'absolute',
                     marginTop: windowWidth * 0.85, 
                     zIndex: 100, 
                     height: windowHeight * 0.3,
                     resizeMode: 'contain'
                     }} source={require('../assets/companion.png')} />
-            </TouchableOpacity> }
+            }
             {gameMode && 
                 <Image id="companion-picture" style={{
                     width: windowWidth,
@@ -156,11 +254,26 @@ export default function MainScreen() {
                     paddingRight: windowWidth * 0.05
                     }}
                 >
-                    <TouchableOpacity onPress={handleJumpAccept} style={{backgroundColor: '#69B6BE', padding: 10, borderRadius: 5, margin: 10,}}>
-                        <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Yes!</Text>
+                    <TouchableOpacity onPress={handleStartGame} style={{backgroundColor: '#69B6BE', padding: 10, borderRadius: 5, margin: 10,}}>
+                        <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Start game</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleJumpDecline} style={{backgroundColor: '#D87355', padding: 10, borderRadius: 5, margin: 10,}}>
-                        <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Maybe later</Text>
+                    <TouchableOpacity onPress={handleJoinGame} style={{backgroundColor: '#D87355', padding: 10, borderRadius: 5, margin: 10,}}>
+                        <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Join game</Text>
+                    </TouchableOpacity>
+                </View> }
+                {joinMode && <View id="joiner" style={{   
+                    flexGrow: 1, 
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    paddingLeft: windowWidth * 0.05,
+                    paddingRight: windowWidth * 0.05
+                    }}
+                >   
+                    <TouchableOpacity onPress={handleJoinConnect} style={{backgroundColor: '#69B6BE', padding: 10, borderRadius: 5, margin: 10,}}>
+                        <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Join</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleCancelJoin} style={{backgroundColor: '#D87355', padding: 10, borderRadius: 5, margin: 10,}}>
+                        <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Cancel</Text>
                     </TouchableOpacity>
                 </View> }
                 {gameMode && <View id="game-buttons" style={{   
@@ -175,9 +288,6 @@ export default function MainScreen() {
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>X</Text>
                     </TouchableOpacity>
                 </View> }
-                {!(buttonsVisibility || gameMode) &&
-                    <Text style={{color: '#425456', fontSize: 25, textAlign: 'center',}}>Tap on me!</Text>
-                }
             </View>
         </LinearGradient>
     );
