@@ -26,6 +26,7 @@ export default function MainScreen() {
   const [gameStartedMoving, setGameStartedMoving] = useState(false);
   const [gameMotivationShown, setGameMotivationShown] = useState(false);
   const [gameMovingTime, setGameMovingTime] = useState(0);
+  const { sval, resetSval } = useExercise();
 
   const resetGame = () => {
     setGameStartTime(Date.now());
@@ -33,8 +34,6 @@ export default function MainScreen() {
     setGameMotivationShown(false);
     resetSval();
   };
-
-  const { exercising, sval, resetSval } = useExercise();
 
   if (gameMode) {
     const elapsedTime = Date.now() - gameStartTime;
