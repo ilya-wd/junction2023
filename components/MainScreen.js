@@ -175,6 +175,9 @@ export default function MainScreen() {
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>X</Text>
                     </TouchableOpacity>
                 </View> }
+                {!(buttonsVisibility || gameMode) &&
+                    <Text style={{color: '#425456', fontSize: 25, textAlign: 'center',}}>Tap on me!</Text>
+                }
             </View>
         </LinearGradient>
     );
