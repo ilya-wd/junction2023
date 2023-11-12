@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Alert, ScrollView, Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import Slider from '@react-native-community/slider';
 
 import Colors from '../../constants/Colors.ts';
 
 const ParentsScreen = () => {
+  const windowWidth = Dimensions.get('window').width;
+
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(24);
 
@@ -41,8 +44,10 @@ const ParentsScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.mainContainer}>
-      <View style={styles.container}>
+    <LinearGradient colors={['#71D552', '#C9D2BD', '#A0C1CA']} style={{ flex: 1, justifyContent: 'flex-end', display: 'flex' }}>
+      <View style={{ ...styles.container, marginTop: windowWidth * 0.3,                 
+                borderRadius: windowWidth * 0.1, 
+                padding: windowWidth * 0.075 }}>
         <Text style={styles.heading}>Activity time range:</Text>
         <View style={styles.sliderContainer}>
           <Text>Start Time: {formatTime(startTime)}</Text>
@@ -78,7 +83,8 @@ const ParentsScreen = () => {
           Selected Time: {formatTime(startTime)} - {formatTime(endTime)}
         </Text>
       </View>
-      <View style={styles.container}>
+      <View style={{ ...styles.container, borderRadius: windowWidth * 0.1, 
+                padding: windowWidth * 0.075 }}>
         <Text style={styles.heading}>Child's activity preferences:</Text>
         <Text>Walking: {walkPref}</Text>
         <Slider
@@ -125,7 +131,7 @@ const ParentsScreen = () => {
           onValueChange={handleDancePref}
         />
       </View>
-    </ScrollView>
+    </LinearGradient>
   );
 };
 
@@ -139,6 +145,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 10,
     marginBottom: 10,
+    backgroundColor: '#ffffff'
   },
   sliderContainer: {
     width: '100%',
