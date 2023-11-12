@@ -252,7 +252,7 @@ export default function NetworkScreen() {
                     zIndex: 100, 
                     height: windowHeight * 0.4,
                     resizeMode: 'contain'
-                    }} source={require('../assets/companion-jumping.gif')} />
+                    }} source={require('../assets/jump-together.gif')} />
             }
             <View id="companion-data" style={{ 
                 marginTop: windowWidth * 1.5, 
