@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
 import Slider from '@react-native-community/slider';
 
+import Colors from '../../constants/Colors.ts';
+
 const ParentsScreen = () => {
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(24);
@@ -48,6 +50,8 @@ const ParentsScreen = () => {
             style={styles.slider}
             minimumValue={0}
             maximumValue={24}
+            minimumTrackTintColor={Colors.base.tint}
+            thumbTintColor={Colors.base.tint}
             step={1}
             value={startTime}
             onValueChange={handleStartChange}
@@ -61,6 +65,8 @@ const ParentsScreen = () => {
             style={styles.slider}
             minimumValue={0}
             maximumValue={24}
+            minimumTrackTintColor={Colors.base.tint}
+            thumbTintColor={Colors.base.tint}
             step={1}
             value={endTime}
             onValueChange={handleEndChange}
@@ -79,6 +85,8 @@ const ParentsScreen = () => {
           style={styles.slider}
           minimumValue={0}
           maximumValue={5}
+          minimumTrackTintColor={Colors.base.tint}
+          thumbTintColor={Colors.base.tint}
           step={1}
           value={walkPref}
           onValueChange={handleWalkPref}
@@ -88,6 +96,8 @@ const ParentsScreen = () => {
           style={styles.slider}
           minimumValue={0}
           maximumValue={5}
+          minimumTrackTintColor={Colors.base.tint}
+          thumbTintColor={Colors.base.tint}
           step={1}
           value={runPref}
           onValueChange={handleRunPref}
@@ -97,6 +107,8 @@ const ParentsScreen = () => {
           style={styles.slider}
           minimumValue={0}
           maximumValue={5}
+          minimumTrackTintColor={Colors.base.tint}
+          thumbTintColor={Colors.base.tint}
           step={1}
           value={jumpPref}
           onValueChange={handleJumpPref}
@@ -106,6 +118,8 @@ const ParentsScreen = () => {
           style={styles.slider}
           minimumValue={0}
           maximumValue={5}
+          minimumTrackTintColor={Colors.base.tint}
+          thumbTintColor={Colors.base.tint}
           step={1}
           value={dancePref}
           onValueChange={handleDancePref}
@@ -133,6 +147,7 @@ const styles = StyleSheet.create({
   slider: {
     width: '100%',
     height: 40,
+    thumbTintColor: Colors.base.tint,
   },
   enabledTime: {
     fontSize: 18,

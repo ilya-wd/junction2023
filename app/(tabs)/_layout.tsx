@@ -20,11 +20,18 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
 
+        tabBarStyle: {
+          borderTopLeftRadius: 45,
+          borderTopRightRadius: 45,
+          height: 70,
+          backgroundColor: Colors.base.background,
+        },
+
         tabBarActiveTintColor: Colors.base.tint,
       }}>
 
       <Tabs.Screen
-        name="Settings"
+        name="settings"
         options={{
           title: 'Settings',
           tabBarIcon: ({ color }) => <TabBarIcon name="sliders" color={color} />,
@@ -35,7 +42,7 @@ export default function TabLayout() {
         name="Friends"
         options={{
           title: 'Friends',
-          tabBarIcon: ({ color }) => <TabBarIcon name="wheelchair-alt" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
 
@@ -43,7 +50,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <TabBarIcon name="paw" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
 
@@ -51,7 +58,7 @@ export default function TabLayout() {
         name="statistics"
         options={{
           title: 'Statistics',
-          tabBarIcon: ({ color }) => <TabBarIcon name="line-chart" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="bar-chart" color={color} />,
         }}
       />
     </Tabs>

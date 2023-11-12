@@ -4,6 +4,8 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 
+import Colors from '../constants/Colors.ts';
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -43,6 +45,10 @@ export default function RootLayout() {
 
 const MyTheme = {
   ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: Colors.base.background,
+  },
 };
 
 function RootLayoutNav() {
