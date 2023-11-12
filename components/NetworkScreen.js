@@ -19,6 +19,7 @@ export default function NetworkScreen() {
     const [buttonsVisibility, setButtonsVisibility] = useState(true)
     const [inputField, setInputField] = useState('');
     const [joinMode, setJoinMode] = useState(false)
+    const [startMode, setStartMode] = useState(false)
     const [gameMode, setGameMode] = useState(false)
     const [gameUserID, setGameUserID] = useState('')
     const [gameCode, setGameCode] = useState('')
@@ -90,6 +91,7 @@ export default function NetworkScreen() {
             .then(response => response.json())
             .then(data => {
                 console.log('Game Code:', data.gameCode);
+                setStartMode(true);
                 setDialog(`Game code is ${data.gameCode}`);
                 setGameCode(data.gameCode)
                 fetch(`${serverURL}/joinGame/${data.gameCode}`, { method: 'POST' })
@@ -107,6 +109,12 @@ export default function NetworkScreen() {
             .catch(error => {
                 console.error('Error during fetch:', error.message, error);
               });
+    }
+
+    const handleCancelStart = () => {
+        setDialog("")
+        setButtonsVisibility(true);
+        setStartMode(false);
     }
 
     const handleJoinGame = () => {
@@ -278,6 +286,18 @@ export default function NetworkScreen() {
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Join</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleCancelJoin} style={{backgroundColor: '#D87355', padding: 10, borderRadius: 5, margin: 10,}}>
+                        <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Cancel</Text>
+                    </TouchableOpacity>
+                </View> }
+                {startMode && <View id="starter" style={{   
+                    flexGrow: 1, 
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    paddingLeft: windowWidth * 0.05,
+                    paddingRight: windowWidth * 0.05
+                    }}
+                >   
+                    <TouchableOpacity onPress={handleCancelStart} style={{backgroundColor: '#D87355', padding: 10, borderRadius: 5, margin: 10,}}>
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Cancel</Text>
                     </TouchableOpacity>
                 </View> }
