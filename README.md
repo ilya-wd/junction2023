@@ -3,7 +3,7 @@
 Read `description.md` to learn more about the problem we tackled, our motivation, features and plans for the future developments of MeMon.
 
 ### Launching the app locally 
-Requires NodeJS and mpm installed
+Requires NodeJS and npm installed
 
 1. Clone the repository `git clone https://github.com/username-u/junction2023.git`
 3. Run `npm i` to install dependencies
