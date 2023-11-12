@@ -3,13 +3,12 @@ import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
 import Slider from '@react-native-community/slider';
 
 const ParentsScreen = () => {
-  const [startTime, setStartTime] = useState(0);
-  const [endTime, setEndTime] = useState(24);
+  const [startTime, setStartTime] = useState(9);
+  const [endTime, setEndTime] = useState(21);
 
-  const [walkPref, setWalkPref] = useState(3);
-  const [runPref, setRunPref] = useState(3);
-  const [jumpPref, setJumpPref] = useState(3);
-  const [dancePref, setDancePref] = useState(3);
+  const [stepPref, setWalkPref] = useState(5000);
+  const [jumpPref, setJumpPref] = useState(70);
+  const [freshAirPref, setFreshAirPref] = useState(60);
 
   const handleStartChange = (value) => {
     setStartTime(value);
@@ -23,16 +22,13 @@ const ParentsScreen = () => {
     setJumpPref(value);
   };
 
-  const handleRunPref = (value) => {
-    setRunPref(value);
-  };
-  const handleWalkPref = (value) => {
+  const handleStepPref = (value) => {
     setWalkPref(value);
   };
 
-  const handleDancePref = (value) => {
-    setDancePref(value);
-  };
+  const handleFreshAirPref = (value) => {
+    setFreshAirPref(value);
+  }
 
   const formatTime = (time) => {
     return time < 10 ? `0${time}:00` : `${time}:00`;
@@ -41,7 +37,7 @@ const ParentsScreen = () => {
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.container}>
-        <Text style={styles.heading}>Activity time range:</Text>
+        <Text style={styles.heading}>Activity time range</Text>
         <View style={styles.sliderContainer}>
           <Text>Start Time: {formatTime(startTime)}</Text>
           <Slider
@@ -69,46 +65,39 @@ const ParentsScreen = () => {
         </View>
 
         <Text style={startTime === endTime ? styles.disabledTime : styles.enabledTime}>
-          Selected Time: {formatTime(startTime)} - {formatTime(endTime)}
+          The game will interact with your child within this time range: {formatTime(startTime)} - {formatTime(endTime)}
         </Text>
       </View>
       <View style={styles.container}>
         <Text style={styles.heading}>Child's activity preferences:</Text>
-        <Text>Walking: {walkPref}</Text>
+
+        <Text>Number of steps per day: {stepPref}</Text>
         <Slider
           style={styles.slider}
-          minimumValue={0}
-          maximumValue={5}
-          step={1}
-          value={walkPref}
-          onValueChange={handleWalkPref}
+          minimumValue={1000}
+          maximumValue={10000}
+          step={500}
+          value={stepPref}
+          onValueChange={handleStepPref}
         />
-        <Text>Running: {runPref}</Text>
-        <Slider
-          style={styles.slider}
-          minimumValue={0}
-          maximumValue={5}
-          step={1}
-          value={runPref}
-          onValueChange={handleRunPref}
-        />
+
         <Text>Jumping: {jumpPref}</Text>
         <Slider
           style={styles.slider}
-          minimumValue={0}
-          maximumValue={5}
-          step={1}
+          minimumValue={50}
+          maximumValue={200}
+          step={5}
           value={jumpPref}
           onValueChange={handleJumpPref}
         />
-        <Text>Dancing: {dancePref}</Text>
+        <Text>Time on frsh air in minutes: {freshAirPref}</Text>
         <Slider
           style={styles.slider}
           minimumValue={0}
-          maximumValue={5}
-          step={1}
-          value={dancePref}
-          onValueChange={handleDancePref}
+          maximumValue={300}
+          step={30}
+          value={freshAirPref}
+          onValueChange={handleFreshAirPref}
         />
       </View>
     </ScrollView>
@@ -118,7 +107,8 @@ const ParentsScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    marginTop: 50
+    marginTop: 50,
+    backgroundColor: '#F9F9F9'
   },
   container: {
     flex: 1,
@@ -145,8 +135,9 @@ const styles = StyleSheet.create({
     textDecorationLine: 'line-through',
   },
   heading: {
-    fontSize: 22,
-    color: 'black',
+    fontSize: 24,
+    color: '#425456',
+    fontWeight: 700,
     justifyContent: 'flex-start',
     marginBottom: 10,
   },
