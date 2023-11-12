@@ -276,10 +276,22 @@ export default function NetworkScreen() {
                     paddingRight: windowWidth * 0.05
                     }}
                 >
-                    <TouchableOpacity onPress={handleStartGame} style={{backgroundColor: '#69B6BE', padding: 10, borderRadius: 5, margin: 10,}}>
+                    <TouchableOpacity onPress={handleStartGame} style={{
+                        backgroundColor: '#3A5683',
+                        padding: 10,
+                        borderRadius: 20,
+                        margin: 10,
+                        marginBottom: 30,
+                    }}>
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Start game</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleJoinGame} style={{backgroundColor: '#D87355', padding: 10, borderRadius: 5, margin: 10,}}>
+                    <TouchableOpacity onPress={handleJoinGame} style={{
+                        backgroundColor: '#3A5683',
+                        padding: 10,
+                        borderRadius: 20,
+                        margin: 10,
+                        marginBottom: 30,
+                    }}>
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Join game</Text>
                     </TouchableOpacity>
                 </View> }
@@ -291,10 +303,22 @@ export default function NetworkScreen() {
                     paddingRight: windowWidth * 0.05
                     }}
                 >   
-                    <TouchableOpacity onPress={handleJoinConnect} style={{backgroundColor: '#69B6BE', padding: 10, borderRadius: 5, margin: 10,}}>
+                    <TouchableOpacity onPress={handleJoinConnect} style={{
+                        backgroundColor: '#3A5683',
+                        padding: 10,
+                        borderRadius: 20,
+                        margin: 10,
+                        marginBottom: 30,
+                    }}>
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Join</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleCancelJoin} style={{backgroundColor: '#D87355', padding: 10, borderRadius: 5, margin: 10,}}>
+                    <TouchableOpacity onPress={handleCancelJoin} style={{
+                        backgroundColor: '#FF1212',
+                        padding: 10,
+                        borderRadius: 20,
+                        margin: 10,
+                        marginBottom: 30,
+                    }}>
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Cancel</Text>
                     </TouchableOpacity>
                 </View> }
@@ -306,7 +330,13 @@ export default function NetworkScreen() {
                     paddingRight: windowWidth * 0.05
                     }}
                 >   
-                    <TouchableOpacity onPress={handleCancelStart} style={{backgroundColor: '#D87355', padding: 10, borderRadius: 5, margin: 10,}}>
+                    <TouchableOpacity onPress={handleCancelStart} style={{
+                        backgroundColor: '#FF1212',
+                        padding: 10,
+                        borderRadius: 20,
+                        margin: 10,
+                        marginBottom: 30,
+                    }}>
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>Cancel</Text>
                     </TouchableOpacity>
                 </View> }
@@ -318,7 +348,13 @@ export default function NetworkScreen() {
                     paddingRight: windowWidth * 0.05
                     }}
                 >
-                    <TouchableOpacity onPress={handleGameStop} style={{backgroundColor: '#D87355', padding: 10, borderRadius: 30, margin: 10,}}>
+                    <TouchableOpacity onPress={handleGameStop} style={{
+                        backgroundColor: '#FF1212',
+                        padding: 10,
+                        borderRadius: 20,
+                        margin: 10,
+                        marginBottom: 30,
+                    }}>
                         <Text style={{color: 'white', fontSize: 25, textAlign: 'center',}}>X</Text>
                     </TouchableOpacity>
                 </View> }
