@@ -54,14 +54,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="line-chart" color={color} />,
         }}
       />
-
-      <Tabs.Screen
-        name="achievements"
-        options={{
-          title: 'Achievements',
-          tabBarIcon: ({ color }) => <TabBarIcon name="child" color={color} />,
-        }}
-      />
     </Tabs>
   );
 }
