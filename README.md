@@ -11,3 +11,7 @@ Requires NodeJS and npm installed
 5. Install Expo Go app on your mobile device
 6. Scan the QR code printed after step 4.
 7. Enjoy!
+
+
+### Link to the backend repo
+https://github.com/dexter3k/junc23_gamemaster
