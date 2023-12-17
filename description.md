@@ -2,9 +2,9 @@
 
 The problem our app tackles is sedentary lifestyle in young children. The problem is huge. We found many scientific papers to confirm it, but provided the selected ones due to the character limit.
 
-It’s no big news that the sedentary lifestyle is a problem. Researchers and doctors across the globe [ring the bell] [https://pubmed.ncbi.nlm.nih.gov/31221536/]
+It’s no big news that the sedentary lifestyle is a problem. Researchers and doctors across the globe [ring the bell](https://pubmed.ncbi.nlm.nih.gov/31221536/)
 
-The problem is also acute in children: [WHO] [https://www.who.int/news/item/24-04-2019-to-grow-up-healthy-children-need-to-sit-less-and-play-more] and particularly in Europe: [OECD] [https://www.oecd-ilibrary.org/sites/1d229f1f-en/index.html?itemId=/content/component/1d229f1f-en]
+The problem is also acute in children: [WHO](https://www.who.int/news/item/24-04-2019-to-grow-up-healthy-children-need-to-sit-less-and-play-more) and particularly in Europe: [OECD](https://www.oecd-ilibrary.org/sites/1d229f1f-en/index.html?itemId=/content/component/1d229f1f-en)
 
 From the paper above:
 - Less than 18% of boys and 10% girls in Europe are physically active, which translates to roughly 86% of children leading sedentary lifestyle
@@ -17,7 +17,7 @@ The problem is grave and we took the challenge!
 
 Targeting mainly young humans of 5-9 years old, MeMon is fun (and useful!)  to use for of all ages thanks to its mechanics.
 
-While choosing features for the app, we again consulted [papers] [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5551109/]:
+While choosing features for the app, we again consulted [papers](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5551109/):
 
 - “I sit because there is nobody to play (actively) with” → MeMon needs social mechanics
 - “Sitting because there is nothing (active) to do” → MeMon has to be entertaining
