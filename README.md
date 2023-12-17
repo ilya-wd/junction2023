@@ -5,7 +5,7 @@ Read `description.md` to learn more about the problem we tackled, our motivation
 ### Launching the app locally 
 Requires NodeJS and npm installed
 
-1. Clone the repository `git clone https://github.com/username-u/junction2023.git`
+1. Clone the repository `git clone https://github.com/ilya-wd/junction2023.git`
 3. Run `npm i` to install dependencies
 4. Run `npx expo start --tunnel` to start the app
 5. Install Expo Go app on your mobile device
